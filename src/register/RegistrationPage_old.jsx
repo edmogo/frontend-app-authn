@@ -1,28 +1,50 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+  useEffect, useMemo, useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import { getConfig } from '@edx/frontend-platform';
 import { sendPageEvent, sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { Form, Spinner, StatefulButton } from '@openedx/paragon';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import Skeleton from 'react-loading-skeleton';
 
 import ConfigurableRegistrationForm from './components/ConfigurableRegistrationForm';
 import RegistrationFailure from './components/RegistrationFailure';
-import { backupRegistrationFormBegin, clearRegistrationBackendError, registerNewUser, setEmailSuggestionInStore, setUserPipelineDataLoaded } from './data/actions';
-import { FORM_SUBMISSION_ERROR, TPA_AUTHENTICATION_FAILURE } from './data/constants';
-import { getBackendValidations, isFormValid, prepareRegistrationPayload } from './data/utils';
+import {
+  backupRegistrationFormBegin,
+  clearRegistrationBackendError,
+  registerNewUser,
+  setEmailSuggestionInStore,
+  setUserPipelineDataLoaded,
+} from './data/actions';
+import {
+  FORM_SUBMISSION_ERROR,
+  TPA_AUTHENTICATION_FAILURE,
+} from './data/constants';
+import {
+  getBackendValidations, isFormValid, prepareRegistrationPayload,
+} from './data/utils';
 import messages from './messages';
-import { EmailField, NameField, UsernameField, DNIField } from './RegistrationFields'; // Importamos DNIField aquí
-import { InstitutionLogistration, PasswordField, RedirectLogistration, ThirdPartyAuthAlert } from '../common-components';
+import { EmailField, NameField, UsernameField } from './RegistrationFields';
+import {
+  InstitutionLogistration,
+  PasswordField,
+  RedirectLogistration,
+  ThirdPartyAuthAlert,
+} from '../common-components';
 import { getThirdPartyAuthContext as getRegistrationDataFromBackend } from '../common-components/data/actions';
 import EnterpriseSSO from '../common-components/EnterpriseSSO';
 import ThirdPartyAuth from '../common-components/ThirdPartyAuth';
-import { COMPLETE_STATE, PENDING_STATE, REGISTER_PAGE } from '../data/constants';
-import { getAllPossibleQueryParams, getTpaHint, getTpaProvider, isHostAvailableInQueryParams, setCookie } from '../data/utils';
+import {
+  COMPLETE_STATE, PENDING_STATE, REGISTER_PAGE,
+} from '../data/constants';
+import {
+  getAllPossibleQueryParams, getTpaHint, getTpaProvider, isHostAvailableInQueryParams, setCookie,
+} from '../data/utils';
 
 /**
  * Main Registration Page component
@@ -100,9 +122,9 @@ const RegistrationPage = (props) => {
         setErrorCode(prevState => ({ type: TPA_AUTHENTICATION_FAILURE, count: prevState.count + 1 }));
       }
       if (pipelineUserDetails && Object.keys(pipelineUserDetails).length !== 0) {
-        const { name = '', username = '', email = '', dni = '' } = pipelineUserDetails; // Añadimos dni al destructuring
+        const { name = '', username = '', email = '' } = pipelineUserDetails;
         setFormFields(prevState => ({
-          ...prevState, name, username, email, dni, // Añadimos dni a los formFields
+          ...prevState, name, username, email,
         }));
         dispatch(setUserPipelineDataLoaded(true));
       }
@@ -331,15 +353,6 @@ const RegistrationPage = (props) => {
                   floatingLabel={formatMessage(messages['registration.password.label'])}
                 />
               )}
-              {/* Incluimos el campo de DNI */}
-              <DNIField
-                name="dni"
-                value={formFields.dni}
-                handleChange={handleOnChange}
-                handleErrorChange={handleErrorChange}
-                errorMessage={errors.dni}
-                floatingLabel={formatMessage(messages['registration.dni.label'])}
-              />
               <ConfigurableRegistrationForm
                 email={formFields.email}
                 fieldErrors={errors}
