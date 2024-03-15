@@ -27,6 +27,11 @@ const messages = defineMessages({
     defaultMessage: 'Password',
     description: 'Label that appears above password field',
   },
+  'registration.dni.label': {
+    id: 'registration.dni.label',
+    defaultMessage: 'DNI',
+    description: 'Label that appears above DNI field',
+  },
   'registration.country.label': {
     id: 'registration.country.label',
     defaultMessage: 'Country/Region',

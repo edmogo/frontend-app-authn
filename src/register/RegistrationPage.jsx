@@ -338,7 +338,7 @@ const RegistrationPage = (props) => {
                 handleChange={handleOnChange}
                 handleErrorChange={handleErrorChange}
                 errorMessage={errors.dni}
-                //floatingLabel={formatMessage(messages['registration.dni.label'])}
+                floatingLabel={formatMessage(messages['registration.dni.label'])}
               />
               <ConfigurableRegistrationForm
                 email={formFields.email}
